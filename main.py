@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from scalar_fastapi import get_scalar_api_reference
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import users
+from app.routers import users, posts
 from app.db.init_db import init_db
 
 async def lifespan(app: FastAPI):
@@ -17,6 +17,7 @@ app.add_middleware(
 )
 
 app.include_router(users.router)
+app.include_router(posts.router)
 
 @app.get("/")
 async def root():
