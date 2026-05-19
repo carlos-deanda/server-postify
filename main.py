@@ -13,7 +13,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['https://localhost:5173']
+    allow_origins=['http://localhost:5173']
 )
 
 app.include_router(users.router)

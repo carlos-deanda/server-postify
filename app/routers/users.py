@@ -6,7 +6,10 @@ from sqlmodel import select
 
 from app.db.session import get_session
 from app.models.user import User
+from app.models.post import Post
 from app.schemas.user import UserCreate, UserRead
+from app.schemas.post import PostRead
+
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -54,3 +57,8 @@ async def delete_user(user_id: uuid.UUID, session: AsyncSession = Depends(get_se
     await session.delete(user)
     await session.commit()
     return None
+
+@router.get('/{userId}/posts', response_model=List[PostRead], status_code=200)
+async def get_posts_by_user(userId: uuid.UUID, session: AsyncSession = Depends(get_session)):
+    res = await session.execute(select(Post).where(Post.user_id == userId))
+    return res.scalars().all()
